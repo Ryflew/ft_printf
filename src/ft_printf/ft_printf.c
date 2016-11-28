@@ -6,37 +6,61 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 18:35:37 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/26 01:48:51 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/11/28 01:11:31 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
+#include <wchar.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "../include/libft.h"
 #include "../include/ft_printf.h"
 
-int		del_elem(t_printf elem, int nbr)
+int		del_elem(t_printf *elem, int nbr)
 {
+	if (elem->length)
+		free(elem->length);
 	free(elem);
 	return (nbr);
 }
 
-int		go_args(char *str, va_list ap)
+t_printf	*creat_elem()
 {
 	t_printf	*elem;
 
-	if (++str == '\0')
+	elem = (t_printf*)malloc(sizeof(t_printf));	
+	elem->flag_sharp = 0;
+	elem->flag_zero = 0;
+	elem->flag_minus = 0;
+	elem->flag_plus = 0;
+	elem->flag_space = 0;
+	elem->width = 0;
+	elem->precision = 0;
+	elem->length = NULL;
+	elem->conversion = 0;
+	return (elem);	
+}
+
+int		go_args(char **str, va_list ap)
+{
+	t_printf	*elem;
+	int			count;
+
+	if (++(*str) == '\0')
 		return (0);
-	va_arg(ap, int);
-	elem = (t_printf)malloc(sizeof(t_printf));	
+	elem = creat_elem();
 	if (!(check_flags(str, elem)))
 		return (del_elem(elem, -1));
-	else if (!check_width(str, elem))
+	if (!check_width(str, elem))
 		return (del_elem(elem, -1));
-	else if (!check_precision(str, elem))
+	if (!check_precision(str, elem))
 		return (del_elem(elem, -1));
-	else if (!check_len(str, elem))
+	if (!check_len(str, elem))
 		return (del_elem(elem, -1));
-	return (-1);
+	if (!check_conv(str, elem))
+		return (del_elem(elem, -1));
+	count = treat(elem, ap);
+	return (del_elem(elem, count));
 }
 
 int		go_solve(char *str, va_list ap, int bytes)
@@ -59,7 +83,7 @@ int		go_solve(char *str, va_list ap, int bytes)
 	}
 	else
 	{
-		if ((count = go_args(str, ap)) == -1)
+		if ((count = go_args(&str, ap)) == -1)
 			return (-1);
 		else
 			return (go_solve(str, ap, bytes + count));

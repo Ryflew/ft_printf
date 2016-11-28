@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 19:09:28 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/25 23:06:14 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/11/28 01:01:54 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <string.h>
+# include <wchar.h>
 
 typedef struct		s_list
 {
@@ -35,6 +36,7 @@ int					ft_tolower(int c);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 int					ft_strequ(char const *s1, char const *s2);
 int					ft_strnequ(char const *s1, char const *s2, size_t n);
+int					ft_countnbr(int nbr);
 size_t				ft_strlcat(char *dest, const char *src, size_t n);
 size_t				ft_lstcount(t_list **lst);
 size_t				ft_strlen(char *str);
@@ -60,6 +62,7 @@ void				ft_lstaddend(t_list **alst, t_list *new);
 void				ft_lstaddmid(t_list **alst, t_list *previous, t_list *new);
 void				ft_bzero(void *s, size_t n);
 void				ft_putnstr(char *str, int nbr);
+void				ft_putwchar(wchar_t c);
 char				*ft_strdup(char *src);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strncpy(char *dest, const char *src, size_t n);

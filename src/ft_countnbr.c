@@ -1,55 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_flag.c                                   :+:      :+:    :+:   */
+/*   ft_countnbr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/25 01:58:04 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/25 02:58:52 by vdarmaya         ###   ########.fr       */
+/*   Created: 2016/11/28 01:01:28 by vdarmaya          #+#    #+#             */
+/*   Updated: 2016/11/28 01:01:40 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
-#include "../include/libft.h"
-
-int		ft_s(char *str)
+int		ft_countnbr(int nbr)
 {
-	int		i;
-	int		count;
+	int count;
 
-	i = -1;
+	if (nbr == -2147483648)
+		return (11);
 	count = 0;
-	while (str[++i])
+	if (nbr < 0)
 	{
-		ft_putchar(str[i]);
+		nbr = -nbr;
 		count++;
 	}
-	return (count);
-}
-
-int		ft_d(int nbr)
-{
-	int		count;
-
-	count = 0;
-	ft_putnbr(nbr);
 	while (nbr)
 	{
 		nbr /= 10;
 		count++;
 	}
 	return (count);
-}
-
-int		ft_c(int c)
-{
-	ft_putchar((char)(c & 255));
-	return (1);
-}
-
-int		ft_percent()
-{
-	ft_putchar('%');
-	return (1);
 }
