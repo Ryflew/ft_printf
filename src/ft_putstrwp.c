@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_countnbr.c                                      :+:      :+:    :+:   */
+/*   ft_putstrwp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 01:01:28 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/29 20:31:33 by vdarmaya         ###   ########.fr       */
+/*   Created: 2016/11/28 20:27:30 by vdarmaya          #+#    #+#             */
+/*   Updated: 2016/11/29 18:13:36 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-size_t	ft_countnbr(long nbr)
+void	ft_putstrwp(char *str, int precision)
 {
-	 size_t count;
-
-	if (nbr == -2147483648)
-		return (11);
-	if (!nbr)
-		return (1);
-	count = 0;
-	if (nbr < 0)
+	if ((precision != -1) && ((size_t)precision < ft_strlen(str)))
 	{
-		nbr = -nbr;
-		count++;
+		while (precision--)
+		{
+			ft_putchar(*str);
+			str++;
+		}
 	}
-	while (nbr)
-	{
-		nbr /= 10;
-		count++;
-	}
-	return (count);
+	else
+		ft_putstr(str);
 }

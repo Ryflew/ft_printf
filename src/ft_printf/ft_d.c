@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/27 20:31:29 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/28 04:22:52 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/11/29 20:30:29 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int		check_complet_char(int nbr, int count, char letter, t_printf *elem)
 		}
 		else
 			tmp = elem->width - count - ft_countnbr(nbr);
-		
 		while (tmp-- > 0)
 			ft_putchar(letter);
 		count = elem->width;
@@ -81,12 +80,12 @@ int		with_width(int nbr, t_printf *elem)
 	return (count);
 }
 
-int		ft_d(int nbr, t_printf *elem)
+int		ft_d(long nbr, t_printf *elem)
 {
 	int count;
 
-	if (elem->flag_sharp)
-		return (-1);
+	if (!nbr && !elem->precision)
+		return (0);
 	count = 0;
 	if (elem->width)
 		count = with_width(nbr, elem);
@@ -106,7 +105,5 @@ int		ft_d(int nbr, t_printf *elem)
 		else
 			count = elem->precision;
 	}
-	if (!nbr && !elem->precision)
-		return (0);
 	return (count);
 }

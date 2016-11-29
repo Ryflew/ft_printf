@@ -6,7 +6,7 @@
 #    By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 07:22:10 by vdarmaya          #+#    #+#              #
-#    Updated: 2016/11/28 01:45:18 by vdarmaya         ###   ########.fr        #
+#    Updated: 2016/11/29 18:37:06 by vdarmaya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,11 @@ SRC = ft_strcpy.c ft_strdup.c ft_strlen.c ft_strncpy.c ft_strcat.c \
 		ft_strnequ.c ft_memalloc.c ft_strjoin.c ft_lstnew.c ft_lstdelone.c \
 		ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_strrev.c \
 		ft_puttabstr.c ft_memtaballoc.c ft_lstcount.c ft_lstaddend.c \
-		ft_lstaddmid.c ft_putnstr.c ft_putwchar.c ft_countnbr.c ft_putnbrwp.c
+		ft_lstaddmid.c ft_putnstr.c ft_putwchar.c ft_countnbr.c ft_putnbrwp.c \
+		ft_putstrwp.c ft_itoabase.c
 
-SRC_PRINTF = ft_printf.c ft_printf_parser.c ft_printf_core.c ft_c.c ft_s.c \
-				ft_d.c
+SRC_PRINTF = ft_printf.c ft_printf_parser.c ft_printf_core.c ft_c.c ft_smaj.c \
+				ft_d.c ft_percent.c ft_s.c ft_unicode.c
 
 OBJ = $(SRC:.c=.o) $(SRC_PRINTF:.c=.o)
 

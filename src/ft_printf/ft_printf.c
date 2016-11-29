@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 18:35:37 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/28 01:11:31 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/11/29 18:04:53 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,32 @@
 #include "../include/libft.h"
 #include "../include/ft_printf.h"
 
-int		del_elem(t_printf *elem, int nbr)
+int			del_elem(t_printf *elem, int nbr)
 {
-	if (elem->length)
-		free(elem->length);
+	// if (elem->length != NULL)
+		// free(elem->length);
 	free(elem);
 	return (nbr);
 }
 
-t_printf	*creat_elem()
+t_printf	*creat_elem(void)
 {
 	t_printf	*elem;
 
-	elem = (t_printf*)malloc(sizeof(t_printf));	
+	elem = (t_printf*)malloc(sizeof(t_printf));
 	elem->flag_sharp = 0;
 	elem->flag_zero = 0;
 	elem->flag_minus = 0;
 	elem->flag_plus = 0;
 	elem->flag_space = 0;
 	elem->width = 0;
-	elem->precision = 0;
+	elem->precision = -1;
 	elem->length = NULL;
 	elem->conversion = 0;
-	return (elem);	
+	return (elem);
 }
 
-int		go_args(char **str, va_list ap)
+int			go_args(char **str, va_list ap)
 {
 	t_printf	*elem;
 	int			count;
@@ -58,12 +58,12 @@ int		go_args(char **str, va_list ap)
 	if (!check_len(str, elem))
 		return (del_elem(elem, -1));
 	if (!check_conv(str, elem))
-		return (del_elem(elem, -1));
+		return (del_elem(elem, 0));
 	count = treat(elem, ap);
 	return (del_elem(elem, count));
 }
 
-int		go_solve(char *str, va_list ap, int bytes)
+int			go_solve(char *str, va_list ap, int bytes)
 {
 	char		*tmp;
 	int			count;
@@ -90,7 +90,7 @@ int		go_solve(char *str, va_list ap, int bytes)
 	}
 }
 
-int		ft_printf(const char * restrict format, ...)
+int			ft_printf(const char *restrict format, ...)
 {
 	va_list		ap;
 	int			count;

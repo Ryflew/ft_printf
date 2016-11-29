@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 22:55:15 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/28 01:43:17 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/11/29 20:31:58 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,25 @@ typedef struct		s_printf
 
 int					ft_printf(const char * restrict format, ...);
 int					treat(t_printf *elem, va_list ap);
-int					ft_c(char c, t_printf *elem);
-//int					ft_s(wchar_t str, t_printf *elem);
-int					ft_d(int nbr, t_printf *elem);
+int					ft_c(int c, t_printf *elem);
+int					ft_s(char *str, t_printf *elem);
+int					ft_smaj(wchar_t *str, t_printf *elem);
+int					ft_d(long nbr, t_printf *elem);
 int					check_conv(char **str, t_printf *elem);
+int					ft_percent(t_printf *elem);
+int					is_null(t_printf *elem);
+int					ft_cwl(wint_t c, t_printf *elem);
+int					ft_count_unicode(wchar_t c);
+int					ft_count_multiple_unicode(wchar_t *str);
 char				*check_flags(char **str, t_printf *elem);
 char				*check_width(char **str, t_printf *elem);
 char				*check_precision(char **str, t_printf *elem);
 char				*check_len(char **str, t_printf *elem);
 void				ft_putnbrwp(int nbr, int precision);
+void				ft_putstrwp(char *str, int precision);
+void				two_bytes(wchar_t c);
+void				three_bytes(wchar_t c);
+void				four_bytes(wchar_t c);
+void				ft_unicode(unsigned int c);
 
 #endif

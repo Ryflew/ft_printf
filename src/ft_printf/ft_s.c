@@ -5,111 +5,78 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/26 18:57:46 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/27 18:47:05 by vdarmaya         ###   ########.fr       */
+/*   Created: 2016/11/28 20:08:23 by vdarmaya          #+#    #+#             */
+/*   Updated: 2016/11/29 18:22:41 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <wchar.h>
 #include "ft_printf.h"
 #include "libft.h"
 
-void	one_byte(char c)
+int		is_normal(char *str, t_printf *elem)
 {
-	char	nbr;
+	int count;
+	int size;
 
-	nbr = 2;
-	nbr = (nbr << 6);
-	nbr += c;
-	ft_putchar(nbr);
+	count = 0;
+	if (elem->flag_minus)
+		ft_putstrwp(str, elem->precision);
+	if ((elem->precision != -1) && (size_t)elem->precision < ft_strlen(str))
+		size = elem->precision;
+	else
+		size = ft_strlen(str);
+	count += size;
+	while (elem->width-- > size)
+	{
+		ft_putchar(' ');
+		count++;
+	}
+	if (!elem->flag_minus)
+		ft_putstrwp(str, elem->precision);
+	return (count);
 }
 
-void	four_bytes(wchar_t c)
+int		is_null(t_printf *elem)
 {
-	char	nbr;
+	int	size;
 
-	nbr = 30;
-	nbr = (nbr << 3);
-	nbr += (char)(c >> 18);
-	c = (c << 14);
-	c = (c >> 14);
-	ft_putchar(nbr);
-	nbr = 2;
-	nbr = (nbr << 6);
-	nbr += (char)(c >> 12);
-	c = (c << 20);
-	c = (c >> 20);
-	ft_putchar(nbr);
-	nbr = 2;
-	nbr = (nbr << 6);
-	nbr += (char)(c >> 6);
-	c = (c << 26);
-	c = (c >> 26);
-	ft_putchar(nbr);
-	one_byte(c);
+	size = 0;
+	if (elem->flag_minus)
+		ft_putstrwp("(null)", elem->precision);
+	if (elem->width > 6 || (elem->width > elem->precision && elem->precision != -1))
+	{
+		size += elem->width;
+		if ((elem->precision != -1) && elem->precision < 6)
+			size += 6 - elem->precision;
+		while (size-- > 6)
+			ft_putchar(' ');
+	}
+	if (!elem->flag_minus)
+		ft_putstrwp("(null)", elem->precision);
+	if (elem->width > 6 || (elem->width > elem->precision && elem->precision != -1))
+		return (elem->width);
+	if ((elem->precision != -1) && (elem->precision < 6))
+		return (elem->precision);
+	return (6);
 }
 
-void	three_bytes(wchar_t c)
-{
-	char	nbr;
-
-	nbr = 14;
-	nbr = (nbr << 4);
-	nbr += (char)(c >> 12);
-	c = (c << 20);
-	c = (c >> 20);
-	ft_putchar(nbr);
-	nbr = 2;
-	nbr = (nbr << 6);
-	nbr += (char)(c >> 6);
-	c = (c << 26);
-	c = (c >> 26);
-	ft_putchar(nbr);
-	one_byte(c);
-}
-
-void	two_bytes(wchar_t c)
-{
-	char	nbr;
-
-	nbr = 6;
-	nbr = (nbr << 5);
-	nbr += (char)(c >> 6);
-	c = (c << 26);
-	c = (c >> 26);
-	ft_putchar(nbr);
-	one_byte(c);
-}
-
-int		ft_s(wchar_t str, t_printf *elem)
+int		ft_s(char *str, t_printf *elem)
 {
 	int		count;
-	if (!str)
-	{
-		ft_putstr("(null)");
-		return (6);
-	}
+
 	count = 0;
-	if (elem)
+	if (!str)
+		return (is_null(elem));
+	else if ((size_t)elem->width > ft_strlen(str) ||
+			(elem->width > elem->precision))
+		count = is_normal(str, elem);
+	else
 	{
-		// flags
+		ft_putstrwp(str, elem->precision);
+		if ((elem->precision != -1) && (size_t)elem->precision < ft_strlen(str))
+			count += elem->precision;
+		else
+			count += ft_strlen(str);
 	}
-	ft_putnbr(str);
-	// while (*str)
-	// {
-	// 	if ((*str >> 16) != 0)
-	// 		four_bytes(*str);
-	// 	else if ((*str >> 11) != 0)
-	// 		three_bytes(*str);
-	// 	else if ((*str >> 7) != 0)
-	// 	{
-	// 		two_bytes(*str);
-	// 		ft_putendl("test");
-	// 	}
-	// 	else
-	// 		ft_putchar(*str);
-	// 	str++;
-	// 	count++;
-	// }
 	return (count);
 }
