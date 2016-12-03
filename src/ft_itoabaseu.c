@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoabase.c                                      :+:      :+:    :+:   */
+/*   ft_itoabaseu.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 20:53:40 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/01 16:41:50 by vdarmaya         ###   ########.fr       */
+/*   Created: 2016/12/01 17:32:15 by vdarmaya          #+#    #+#             */
+/*   Updated: 2016/12/01 18:05:10 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <string.h>
 
-static size_t	get_size(long nbr, int base)
+static size_t	get_size(unsigned long nbr, int base)
 {
 	int i;
 
 	if (!nbr)
 		return (1);
 	i = 0;
-	if (nbr < 0)
-		i++;
 	while (nbr)
 	{
 		nbr /= base;
@@ -78,7 +76,7 @@ static char		*set_tab_min(void)
 	return (str);
 }
 
-char			*ft_itoabase(long nbr, int base, char min)
+char			*ft_itoabaseu(unsigned long nbr, int base, char min)
 {
 	char	*tab;
 	char	*str;

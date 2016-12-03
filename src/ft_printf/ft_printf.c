@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 18:35:37 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/29 18:04:53 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/03 22:02:24 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,31 @@ int			go_args(char **str, va_list ap)
 {
 	t_printf	*elem;
 	int			count;
+	char		c;
 
-	if (++(*str) == '\0')
-		return (0);
+	count = 0;
 	elem = creat_elem();
-	if (!(check_flags(str, elem)))
-		return (del_elem(elem, -1));
-	if (!check_width(str, elem))
-		return (del_elem(elem, -1));
-	if (!check_precision(str, elem))
-		return (del_elem(elem, -1));
-	if (!check_len(str, elem))
-		return (del_elem(elem, -1));
-	if (!check_conv(str, elem))
-		return (del_elem(elem, 0));
+	(*str)++;
+	while(1)
+	{
+		if (*str == '\0')
+			return (del_elem(elem, 0));
+		if (!(check_flags(str, elem)))
+			return (del_elem(elem, 0));
+		if (!check_width(str, elem))
+			return (del_elem(elem, 0));
+		if (!check_precision(str, elem))
+			return (del_elem(elem, 0));
+		if (!check_len(str, elem))
+			return (del_elem(elem, 0));
+		if (!check_conv(str, elem))
+			return (del_elem(elem, 0));
+		c = elem->conversion;
+		if ((c != '#') && (c != '0') && (c != '-') && (c != '+') &&
+			(c != ' ') && !((c >= 48) && (c <= 57)) && (c != '.') &&
+			(c != 'h') && (c != 'l') &&  (c != 'j') && (c != 'z'))
+			break ;
+	}
 	count = treat(elem, ap);
 	return (del_elem(elem, count));
 }
@@ -84,7 +95,7 @@ int			go_solve(char *str, va_list ap, int bytes)
 	else
 	{
 		if ((count = go_args(&str, ap)) == -1)
-			return (-1);
+			return (0);
 		else
 			return (go_solve(str, ap, bytes + count));
 	}
@@ -96,7 +107,7 @@ int			ft_printf(const char *restrict format, ...)
 	int			count;
 
 	if (!format)
-		return (-1);
+		return (0);
 	va_start(ap, format);
 	count = go_solve((char*)format, ap, 0);
 	va_end(ap);

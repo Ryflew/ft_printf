@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_countunbr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/07 15:40:59 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/01 17:09:57 by vdarmaya         ###   ########.fr       */
+/*   Created: 2016/12/01 17:39:48 by vdarmaya          #+#    #+#             */
+/*   Updated: 2016/12/01 18:04:55 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <string.h>
 
-void	ft_putnbr(long n)
+short	ft_countunbr(unsigned long nbr)
 {
-	if (n == -9223372036854775807 - 1)
+	 short count;
+
+	if (!nbr)
+		return (1);
+	count = 0;
+	while (nbr)
 	{
-		ft_putnbr(-9);
-		ft_putnbr(223372036854775808);
+		nbr /= 10;
+		count++;
 	}
-	else if (n < 0)
-	{
-		ft_putchar('-');
-		ft_putnbr(-n);
-	}
-	else if (n > 9)
-	{
-		ft_putnbr(n / 10);
-		ft_putnbr(n % 10);
-	}
-	else
-		ft_putchar((char)(n + 48));
+	return (count);
 }

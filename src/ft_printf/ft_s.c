@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 20:08:23 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/29 18:22:41 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/03 22:02:59 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,21 @@ int		is_normal(char *str, t_printf *elem)
 	int count;
 	int size;
 
-	count = 0;
 	if (elem->flag_minus)
 		ft_putstrwp(str, elem->precision);
 	if ((elem->precision != -1) && (size_t)elem->precision < ft_strlen(str))
 		size = elem->precision;
 	else
 		size = ft_strlen(str);
-	count += size;
-	while (elem->width-- > size)
-	{
-		ft_putchar(' ');
-		count++;
-	}
+	count = size;
+	if (elem->width > size)
+		count = elem->width;
+	if (elem->flag_zero && !elem->flag_minus)
+		while (elem->width-- > size)
+			ft_putchar('0');
+	else
+		while (elem->width-- > size)
+			ft_putchar(' ');
 	if (!elem->flag_minus)
 		ft_putstrwp(str, elem->precision);
 	return (count);
@@ -49,7 +51,7 @@ int		is_null(t_printf *elem)
 		if ((elem->precision != -1) && elem->precision < 6)
 			size += 6 - elem->precision;
 		while (size-- > 6)
-			ft_putchar(' ');
+			ft_putchar('0');
 	}
 	if (!elem->flag_minus)
 		ft_putstrwp("(null)", elem->precision);

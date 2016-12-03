@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 22:51:33 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/29 18:25:34 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/03 23:16:48 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,21 +93,29 @@ char	*check_precision(char **str, t_printf *elem)
 
 char	*check_len(char **str, t_printf *elem)
 {
-	if (**str == 'h' || **str == 'l' || **str == 'L' || **str == 'q' ||
-		**str == 'j' || **str == 'z' || **str == 't')
+	char	i;
+
+	i = 0;
+	if (elem->length && (elem->length[0] > **str))
+	{
+		i = 1;
+		(*str)++;
+	}
+	if (!i && (**str == 'h' || **str == 'l' || **str == 'j' ||
+		**str == 'z'))
 	{
 		if (((**str == 'h') && (*(*str + 1) == 'h')) ||
 			((**str == 'l') && (*(*str + 1) == 'l')))
 			elem->length = ft_strnew(3);
 		else
 			elem->length = ft_strnew(2);
-		if (**str == 'h' && (*(*str + 1) == 'h'))
+		if ((**str == 'h') && (*(*str + 1) == 'h'))
 			elem->length = "hh";
-		else if (**str == 'l' && (*(*str + 1) == 'l'))
+		else if ((**str == 'l') && (*(*str + 1) == 'l'))
 			elem->length = "ll";
 		else
 			elem->length[0] = **str;
-		if (ft_strlen(elem->length) > 1)
+		if (elem->length[1] != '\0')
 			(*str)++;
 		(*str)++;
 	}
@@ -116,15 +124,19 @@ char	*check_len(char **str, t_printf *elem)
 
 int		check_conv(char **str, t_printf *elem)
 {
-	if ((**str == 's') || (**str == 'S') || (**str == 'p') || (**str == 'd') ||
-		(**str == 'D') || (**str == 'i') || (**str == 'o') || (**str == 'O') ||
-		(**str == 'u') || (**str == 'U') || (**str == 'x') || (**str == 'X') ||
-		(**str == 'c') || (**str == 'C') || (**str == '%'))
+	char	c;
+
+	c = **str;
+	if ((c == 's') || (c == 'S') || (c == 'p') || (c == 'd') || (c == 'D') ||
+		(c == 'i') || (c == 'o') || (c == 'O') || (c == 'u') || (c == 'U') ||
+		(c == 'x') || (c == 'X') || (c == 'c') || (c == 'C') || (c == '%') || c)
 	{
 		elem->conversion = **str;
-		(*str)++;
+		if ((c != '#') && (c != '0') && (c != '-') && (c != '+') &&
+			(c != ' ') && !((c >= '0') && (c <= '9')) && (c != '.') &&
+			(c != 'h') && (c != 'l') &&  (c != 'j') && (c != 'z'))
+			(*str)++;
+		return (1);
 	}
-	else
-		return (0);
-	return (1);
+	return (0);
 }

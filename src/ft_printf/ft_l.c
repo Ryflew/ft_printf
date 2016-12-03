@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_d.c                                             :+:      :+:    :+:   */
+/*   ft_l.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/27 20:31:29 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/29 20:30:29 by vdarmaya         ###   ########.fr       */
+/*   Created: 2016/11/30 15:26:01 by vdarmaya          #+#    #+#             */
+/*   Updated: 2016/12/04 00:33:52 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int		check_plus_space(int nbr, t_printf *elem)
+char	check_plus_spacel(long nbr, t_printf *elem)
 {
-	int		count;
+	char	count;
 
 	count = 0;
 	if (elem->flag_plus && nbr >= 0)
@@ -31,13 +31,15 @@ int		check_plus_space(int nbr, t_printf *elem)
 	return (count);
 }
 
-int		check_complet_char(int nbr, int count, char letter, t_printf *elem)
+int		check_complet_charl(long nbr, int count, char letter, t_printf *elem)
 {
 	int	tmp;
 
 	if (ft_countnbr(nbr) < (elem->width + count))
 	{
-		if (elem->precision > ft_countnbr(nbr))
+		if (letter == ' ' && elem->flag_space && elem->flag_sharp && !elem->flag_minus)
+			elem->width--;
+		if (elem->precision >= ft_countnbr(nbr))
 		{
 			tmp = elem->width - count - elem->precision;
 			if (nbr < 0)
@@ -47,56 +49,74 @@ int		check_complet_char(int nbr, int count, char letter, t_printf *elem)
 			tmp = elem->width - count - ft_countnbr(nbr);
 		while (tmp-- > 0)
 			ft_putchar(letter);
-		count = elem->width;
+		return (elem->width);
 	}
 	else
 		count += ft_countnbr(nbr);
 	return (count);
 }
 
-int		with_width(int nbr, t_printf *elem)
+int		with_widthl(long nbr, t_printf *elem)
 {
 	int count;
 
 	count = 0;
 	if (elem->flag_minus)
 	{
-		count += check_plus_space(nbr, elem);
+		count += check_plus_spacel(nbr, elem);
 		ft_putnbrwp(nbr, elem->precision);
-		count = check_complet_char(nbr, count, ' ', elem);
+		count = check_complet_charl(nbr, count, ' ', elem);
 	}
 	else if (elem->flag_zero)
 	{
-		count += check_plus_space(nbr, elem);
-		count = check_complet_char(nbr, count, '0', elem);
+		if (elem->precision != -1)
+			count = check_complet_charl(nbr, count, ' ', elem);
+		count += check_plus_spacel(nbr, elem);
+		if (nbr < 0)
+			ft_putchar('-');
+		if (elem->precision == -1)
+			count = check_complet_charl(nbr, count, '0', elem);
+		if (nbr < 0)
+			nbr = -nbr;
 		ft_putnbrwp(nbr, elem->precision);
 	}
 	else
 	{
-		count += check_plus_space(nbr, elem);
-		count += check_complet_char(nbr, count, ' ', elem);
+		if ((elem->flag_plus || elem->flag_space) && nbr >= 0)
+			count++;
+		count = check_complet_charl(nbr, count, ' ', elem);
+		count += check_plus_spacel(nbr, elem);
+		if ((elem->flag_plus || elem->flag_minus) && nbr >= 0)
+			count--;
 		ft_putnbrwp(nbr, elem->precision);
 	}
 	return (count);
 }
 
-int		ft_d(long nbr, t_printf *elem)
+int		ft_l(long nbr, t_printf *elem)
 {
-	int count;
+	long	count;
 
 	if (!nbr && !elem->precision)
+	{
+		count = elem->width;
+		while (elem->width-- > 0)
+			ft_putchar(' ');
+		if (count)
+			return (count);
 		return (0);
+	}
 	count = 0;
 	if (elem->width)
-		count = with_width(nbr, elem);
+		count = with_widthl(nbr, elem);
 	else
 	{
-		count += check_plus_space(nbr, elem) + ft_countnbr(nbr);
+		count += check_plus_spacel(nbr, elem) + ft_countnbr(nbr);
 		ft_putnbrwp(nbr, elem->precision);
 		if (elem->precision >= ft_countnbr(nbr))
 			count++;
 	}
-	if (elem->precision > ft_countnbr(nbr))
+	if (nbr && elem->precision > ft_countnbr(nbr))
 	{
 		if (elem->width > elem->precision)
 			count = elem->width;

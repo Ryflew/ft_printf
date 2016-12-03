@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 19:09:28 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/29 12:21:53 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/01 18:10:29 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,16 @@ int					ft_tolower(int c);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 int					ft_strequ(char const *s1, char const *s2);
 int					ft_strnequ(char const *s1, char const *s2, size_t n);
-int					ft_countnbr(int nbr);
+short				ft_countnbr(long nbr);
+short				ft_countunbr(unsigned long nbr);
 size_t				ft_strlcat(char *dest, const char *src, size_t n);
 size_t				ft_lstcount(t_list **lst);
 size_t				ft_strlen(char *str);
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);
 void				ft_putendl(char const *s);
-void				ft_putnbr(int n);
+void				ft_putnbr(long n);
+void				ft_putunbr(unsigned long n);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putendl_fd(char const *s, int fd);
@@ -79,7 +81,8 @@ char				*ft_strtrim(char const *s);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strmap(char const *s, char (*f)(char));
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-char				*ft_itoabase(int nbr, int base, char min);
+char				*ft_itoabase(long nbr, int base, char min);
+char				*ft_itoabaseu(unsigned long nbr, int base, char min);
 void				*ft_memset (void *s, int c, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 void				*ft_memccpy(void *dest, const void *src, int c, size_t n);

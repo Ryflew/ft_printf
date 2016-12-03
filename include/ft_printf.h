@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 22:55:15 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/29 20:31:58 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/03 20:37:49 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,25 @@ int					treat(t_printf *elem, va_list ap);
 int					ft_c(int c, t_printf *elem);
 int					ft_s(char *str, t_printf *elem);
 int					ft_smaj(wchar_t *str, t_printf *elem);
-int					ft_d(long nbr, t_printf *elem);
+int					ft_d(int nbr, t_printf *elem);
+int					ft_l(long nbr, t_printf *elem);
+int					ft_x(unsigned long nbr, char letter, t_printf *elem);
+int					ft_o(unsigned long nbr, t_printf *elem);
+int					ft_p(void *address, t_printf *elem);
 int					check_conv(char **str, t_printf *elem);
 int					ft_percent(t_printf *elem);
 int					is_null(t_printf *elem);
 int					ft_cwl(wint_t c, t_printf *elem);
 int					ft_count_unicode(wchar_t c);
 int					ft_count_multiple_unicode(wchar_t *str);
+int					ft_oux(unsigned long nbr, char letter, t_printf *elem);
+int					ft_invalid_input(char c, t_printf *elem);
 char				*check_flags(char **str, t_printf *elem);
 char				*check_width(char **str, t_printf *elem);
 char				*check_precision(char **str, t_printf *elem);
 char				*check_len(char **str, t_printf *elem);
-void				ft_putnbrwp(int nbr, int precision);
+void				ft_putnbrwp(long nbr, int precision);
+void				ft_putunbrwp(unsigned long nbr, int precision);
 void				ft_putstrwp(char *str, int precision);
 void				two_bytes(wchar_t c);
 void				three_bytes(wchar_t c);

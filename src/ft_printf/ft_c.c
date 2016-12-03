@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/26 17:05:36 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/29 18:02:19 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/02 01:33:01 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,17 +81,18 @@ int		ft_c(int c, t_printf *elem)
 	unsigned char	cha;
 
 	count = 0;
-	if (elem->flag_sharp || elem->flag_zero ||
-		elem->flag_space)
-		return (-1);
 	cha = c & 255;
 	if (elem->width)
 	{
 		count = elem->width;
 		if (elem->flag_minus)
 			ft_putchar(cha);
-		while (--count)
-			ft_putchar(' ');
+		if (elem->flag_zero)
+			while (--count)
+				ft_putchar('0');
+		else
+			while (--count)
+				ft_putchar(' ');
 		if (!elem->flag_minus)
 			ft_putchar(cha);
 		return (elem->width);

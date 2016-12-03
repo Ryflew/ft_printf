@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/26 18:57:46 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/29 19:45:12 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/03 19:36:30 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ int		w_precision(wchar_t *str, t_printf *elem)
 	if (elem->width)
 	{
 		i = elem->width - countp;
-		while (i-- > 0)
+		if (elem->flag_zero)
+			while (i-- > 0)
+				ft_putchar('0');
+		else
+			while (i-- > 0)
 				ft_putchar(' ');
 		i = -1;
 	}
@@ -73,7 +77,11 @@ void	w_width(wchar_t *str, t_printf *elem)
 		while (str[++i])
 			ft_unicode(str[i]);
 	count = elem->width - ft_count_multiple_unicode(str);
-	while (count-- > 0)
+	if (elem->flag_zero)
+		while (count-- > 0)
+				ft_putchar('0');
+	else
+		while (count-- > 0)
 			ft_putchar(' ');
 	if (!elem->flag_minus)
 		while (str[++i])

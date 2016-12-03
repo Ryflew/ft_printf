@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 00:49:39 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/29 20:28:08 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/03 23:46:13 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putnbrwp(long nbr, int precision)
 {
-	int count;
+	short count;
 
 	if (precision > 0)
 	{

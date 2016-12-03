@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_percent.c                                       :+:      :+:    :+:   */
+/*   ft_invalid_input.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 17:42:59 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/03 18:19:24 by vdarmaya         ###   ########.fr       */
+/*   Created: 2016/12/01 22:55:52 by vdarmaya          #+#    #+#             */
+/*   Updated: 2016/12/03 21:53:36 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
 #include "libft.h"
+#include "ft_printf.h"
 
-int		with_width_percent(t_printf *elem)
+int		with_width_invalid(char c, t_printf *elem)
 {
 	int count;
 
 	count = elem->width - 1;
 	if (elem->flag_minus)
 	{
-		ft_putchar('%');
+		ft_putchar(c);
 		while (count-- > 0)
 			ft_putchar(' ');
 	}
@@ -28,28 +28,25 @@ int		with_width_percent(t_printf *elem)
 	{
 		while (count-- > 0)
 			ft_putchar('0');
-		ft_putchar('%');		
+		ft_putchar(c);		
 	}
 	else
 	{
 		while (count-- > 0)
 			ft_putchar(' ');
-		ft_putchar('%');
+		ft_putchar(c);
 	}
 	return (elem->width);
 }
 
-int		ft_percent(t_printf *elem)
+int		ft_invalid_input(char c, t_printf *elem)
 {
-	int count;
+	int		count;
 
-	count = 0;
+	count = 1;
 	if (elem->width)
-		count = with_width_percent(elem);
+		count = with_width_invalid(c, elem);
 	else
-	{
-		ft_putchar('%');
-		count++;
-	}
+		ft_putchar(c);
 	return (count);
 }
