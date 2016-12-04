@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 22:55:52 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/03 21:53:36 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 16:32:09 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		with_width_invalid(char c, t_printf *elem)
 	{
 		while (count-- > 0)
 			ft_putchar('0');
-		ft_putchar(c);		
+		ft_putchar(c);
 	}
 	else
 	{

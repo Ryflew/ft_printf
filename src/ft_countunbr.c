@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 17:39:48 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/01 18:04:55 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 16:30:16 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 short	ft_countunbr(unsigned long nbr)
 {
-	 short count;
+	short count;
 
 	if (!nbr)
 		return (1);

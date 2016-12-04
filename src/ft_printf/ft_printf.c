@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 18:35:37 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/03 22:02:24 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 18:59:02 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 int			del_elem(t_printf *elem, int nbr)
 {
-	// if (elem->length != NULL)
-		// free(elem->length);
+	if (elem->length)
+		free(elem->length);
 	free(elem);
 	return (nbr);
 }
@@ -44,13 +44,11 @@ t_printf	*creat_elem(void)
 int			go_args(char **str, va_list ap)
 {
 	t_printf	*elem;
-	int			count;
 	char		c;
 
-	count = 0;
 	elem = creat_elem();
 	(*str)++;
-	while(1)
+	while (1)
 	{
 		if (*str == '\0')
 			return (del_elem(elem, 0));
@@ -62,16 +60,14 @@ int			go_args(char **str, va_list ap)
 			return (del_elem(elem, 0));
 		if (!check_len(str, elem))
 			return (del_elem(elem, 0));
-		if (!check_conv(str, elem))
+		if (!check_conv(str, &c, elem))
 			return (del_elem(elem, 0));
-		c = elem->conversion;
 		if ((c != '#') && (c != '0') && (c != '-') && (c != '+') &&
 			(c != ' ') && !((c >= 48) && (c <= 57)) && (c != '.') &&
-			(c != 'h') && (c != 'l') &&  (c != 'j') && (c != 'z'))
+			(c != 'h') && (c != 'l') && (c != 'j') && (c != 'z'))
 			break ;
 	}
-	count = treat(elem, ap);
-	return (del_elem(elem, count));
+	return (del_elem(elem, treat(elem, ap)));
 }
 
 int			go_solve(char *str, va_list ap, int bytes)

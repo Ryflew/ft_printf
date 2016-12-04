@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 20:08:23 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/03 22:02:59 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 19:09:49 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int		is_null(t_printf *elem)
 	size = 0;
 	if (elem->flag_minus)
 		ft_putstrwp("(null)", elem->precision);
-	if (elem->width > 6 || (elem->width > elem->precision && elem->precision != -1))
+	if (elem->width > 6 || (elem->width > elem->precision &&
+		elem->precision != -1))
 	{
 		size += elem->width;
 		if ((elem->precision != -1) && elem->precision < 6)
@@ -55,7 +56,8 @@ int		is_null(t_printf *elem)
 	}
 	if (!elem->flag_minus)
 		ft_putstrwp("(null)", elem->precision);
-	if (elem->width > 6 || (elem->width > elem->precision && elem->precision != -1))
+	if (elem->width > 6 || (elem->width > elem->precision &&
+		elem->precision != -1))
 		return (elem->width);
 	if ((elem->precision != -1) && (elem->precision < 6))
 		return (elem->precision);

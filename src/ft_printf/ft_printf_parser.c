@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 22:51:33 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/03 23:16:48 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 19:01:56 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,38 +91,35 @@ char	*check_precision(char **str, t_printf *elem)
 	return (*str);
 }
 
-char	*check_len(char **str, t_printf *elem)
+char	*check_len(char **s, t_printf *elem)
 {
-	char	i;
+	char	c;
 
-	i = 0;
-	if (elem->length && (elem->length[0] > **str))
+	c = **s;
+	if (elem->length && (elem->length[0] > c))
+		(*s)++;
+	if (elem->length && (elem->length[0] > c))
+		c = 0;
+	else if (elem->length && (elem->length[0] < c) && (c == 'h' || c == 'l' ||
+			c == 'j' || c == 'z'))
+		free(elem->length);
+	if (c && (c == 'h' || c == 'l' || c == 'j' || c == 'z'))
 	{
-		i = 1;
-		(*str)++;
-	}
-	if (!i && (**str == 'h' || **str == 'l' || **str == 'j' ||
-		**str == 'z'))
-	{
-		if (((**str == 'h') && (*(*str + 1) == 'h')) ||
-			((**str == 'l') && (*(*str + 1) == 'l')))
+		if ((c == 'h' && *(*s + 1) == 'h') || (c == 'l' && *(*s + 1) == 'l'))
 			elem->length = ft_strnew(3);
 		else
 			elem->length = ft_strnew(2);
-		if ((**str == 'h') && (*(*str + 1) == 'h'))
-			elem->length = "hh";
-		else if ((**str == 'l') && (*(*str + 1) == 'l'))
-			elem->length = "ll";
-		else
-			elem->length[0] = **str;
+		elem->length[0] = c;
+		if ((c == 'h' && *(*s + 1) == 'h') || (c == 'l' && *(*s + 1) == 'l'))
+			elem->length[1] = (c == 'h') ? 'h' : 'l';
 		if (elem->length[1] != '\0')
-			(*str)++;
-		(*str)++;
+			(*s)++;
+		(*s)++;
 	}
-	return (*str);
+	return (*s);
 }
 
-int		check_conv(char **str, t_printf *elem)
+int		check_conv(char **str, char *cha, t_printf *elem)
 {
 	char	c;
 
@@ -132,9 +129,10 @@ int		check_conv(char **str, t_printf *elem)
 		(c == 'x') || (c == 'X') || (c == 'c') || (c == 'C') || (c == '%') || c)
 	{
 		elem->conversion = **str;
+		*cha = **str;
 		if ((c != '#') && (c != '0') && (c != '-') && (c != '+') &&
 			(c != ' ') && !((c >= '0') && (c <= '9')) && (c != '.') &&
-			(c != 'h') && (c != 'l') &&  (c != 'j') && (c != 'z'))
+			(c != 'h') && (c != 'l') && (c != 'j') && (c != 'z'))
 			(*str)++;
 		return (1);
 	}

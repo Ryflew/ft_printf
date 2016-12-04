@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 21:36:14 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/03 18:50:20 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 19:31:19 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,6 @@ void	ft_putx(char *str, t_printf *elem)
 	ft_putstr(str);
 }
 
-void	put_sharp(char letter)
-{
-	if (letter == 'x')
-		ft_putstr("0x");
-	else
-		ft_putstr("0X");
-}
-
 int		check_complet_charx(char *nbr, char letter, t_printf *elem)
 {
 	int	tmp;
@@ -42,8 +34,9 @@ int		check_complet_charx(char *nbr, char letter, t_printf *elem)
 
 	if (ft_strlen(nbr) < (size_t)(elem->width))
 	{
-		if ((elem->precision != -1) && ((size_t)elem->precision > ft_strlen(nbr)))
-			tmp = elem->width - elem->precision;		
+		if ((elem->precision != -1) &&
+			((size_t)elem->precision > ft_strlen(nbr)))
+			tmp = elem->width - elem->precision;
 		else
 			tmp = elem->width - ft_strlen(nbr);
 		if (elem->flag_sharp)
@@ -67,14 +60,14 @@ int		with_widthx(char *nbr, char letter, t_printf *elem)
 	if (elem->flag_minus)
 	{
 		if (elem->flag_sharp && !(ft_strlen(nbr) == 1 && nbr[0] == '0'))
-			put_sharp(letter);
+			ft_putzerox(letter);
 		ft_putx(nbr, elem);
 		count = check_complet_charx(nbr, ' ', elem);
 	}
 	else if (elem->flag_zero)
 	{
 		if (elem->flag_sharp && !(ft_strlen(nbr) == 1 && nbr[0] == '0'))
-			put_sharp(letter);
+			ft_putzerox(letter);
 		count = check_complet_charx(nbr, '0', elem);
 		ft_putx(nbr, elem);
 	}
@@ -82,16 +75,24 @@ int		with_widthx(char *nbr, char letter, t_printf *elem)
 	{
 		count = check_complet_charx(nbr, ' ', elem);
 		if (elem->flag_sharp && !(ft_strlen(nbr) == 1 && nbr[0] == '0'))
-			put_sharp(letter);
+			ft_putzerox(letter);
 		ft_putx(nbr, elem);
 	}
 	return (count);
 }
 
+int		without_width(char *str, char letter, t_printf *elem)
+{
+	if (elem->flag_sharp && !(ft_strlen(str) == 1 && str[0] == '0'))
+		ft_putzerox(letter);
+	ft_putx(str, elem);
+	return (ft_strlen(str));
+}
+
 int		ft_x(unsigned long nbr, char letter, t_printf *elem)
 {
 	char	*str;
-	int 	count;
+	int		count;
 
 	if (!nbr && !elem->precision)
 	{
@@ -102,24 +103,16 @@ int		ft_x(unsigned long nbr, char letter, t_printf *elem)
 			return (count);
 		return (0);
 	}
-	if (letter == 'x')
-		str = ft_itoabaseu(nbr, 16, 1);
-	else
-		str = ft_itoabaseu(nbr, 16, 0);
+	str = (letter == 'x') ? ft_itoabaseu(nbr, 16, 1) : ft_itoabaseu(nbr, 16, 0);
 	if (elem->width)
 		count = with_widthx(str, letter, elem);
 	else
-	{
-		if (elem->flag_sharp && !(ft_strlen(str) == 1 && str[0] == '0'))
-			put_sharp(letter);
-		ft_putx(str, elem);
-		count = ft_strlen(str);
-	}
+		count = without_width(str, letter, elem);
 	if ((elem->precision != -1) && ((size_t)elem->precision > ft_strlen(str)))
 		count += elem->precision - ft_strlen(str);
 	if (elem->flag_sharp && !(ft_strlen(str) == 1 && str[0] == '0'))
 		count += 2;
-	if (((size_t)elem->width > ft_strlen(str)) && (elem->precision < elem->width))
+	if ((size_t)elem->width > ft_strlen(str) && elem->precision < elem->width)
 		count = elem->width;
 	free(str);
 	return (count);

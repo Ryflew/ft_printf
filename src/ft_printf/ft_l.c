@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 15:26:01 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/04 00:33:52 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 19:55:30 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int		check_complet_charl(long nbr, int count, char letter, t_printf *elem)
 
 	if (ft_countnbr(nbr) < (elem->width + count))
 	{
-		if (letter == ' ' && elem->flag_space && elem->flag_sharp && !elem->flag_minus)
+		if (letter == ' ' && elem->flag_space && elem->flag_sharp &&
+			!elem->flag_minus)
 			elem->width--;
 		if (elem->precision >= ft_countnbr(nbr))
 		{
@@ -56,6 +57,24 @@ int		check_complet_charl(long nbr, int count, char letter, t_printf *elem)
 	return (count);
 }
 
+int		with_width_zero(long nbr, t_printf *elem)
+{
+	int count;
+
+	count = 0;
+	if (elem->precision != -1)
+		count = check_complet_charl(nbr, count, ' ', elem);
+	count += check_plus_spacel(nbr, elem);
+	if (nbr < 0)
+		ft_putchar('-');
+	if (elem->precision == -1)
+		count = check_complet_charl(nbr, count, '0', elem);
+	if (nbr < 0)
+		nbr = -nbr;
+	ft_putnbrwp(nbr, elem->precision);
+	return (count);
+}
+
 int		with_widthl(long nbr, t_printf *elem)
 {
 	int count;
@@ -68,18 +87,7 @@ int		with_widthl(long nbr, t_printf *elem)
 		count = check_complet_charl(nbr, count, ' ', elem);
 	}
 	else if (elem->flag_zero)
-	{
-		if (elem->precision != -1)
-			count = check_complet_charl(nbr, count, ' ', elem);
-		count += check_plus_spacel(nbr, elem);
-		if (nbr < 0)
-			ft_putchar('-');
-		if (elem->precision == -1)
-			count = check_complet_charl(nbr, count, '0', elem);
-		if (nbr < 0)
-			nbr = -nbr;
-		ft_putnbrwp(nbr, elem->precision);
-	}
+		count = with_width_zero(nbr, elem);
 	else
 	{
 		if ((elem->flag_plus || elem->flag_space) && nbr >= 0)
@@ -99,31 +107,24 @@ int		ft_l(long nbr, t_printf *elem)
 
 	if (!nbr && !elem->precision)
 	{
-		count = elem->width;
+		count = elem->width > 0 ? elem->width : 0;
 		while (elem->width-- > 0)
 			ft_putchar(' ');
-		if (count)
-			return (count);
-		return (0);
+		return (count);
 	}
-	count = 0;
 	if (elem->width)
 		count = with_widthl(nbr, elem);
 	else
 	{
-		count += check_plus_spacel(nbr, elem) + ft_countnbr(nbr);
+		count = check_plus_spacel(nbr, elem) + ft_countnbr(nbr);
 		ft_putnbrwp(nbr, elem->precision);
 		if (elem->precision >= ft_countnbr(nbr))
 			count++;
 	}
 	if (nbr && elem->precision > ft_countnbr(nbr))
 	{
-		if (elem->width > elem->precision)
-			count = elem->width;
-		else if (nbr < 0)
-			count = elem->precision + 1;
-		else
-			count = elem->precision;
+		count = (nbr < 0) ? elem->precision + 1 : elem->precision;
+		count = (elem->width > elem->precision) ? elem->width : count;
 	}
 	return (count);
 }

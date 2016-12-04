@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 01:44:28 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/03 19:33:35 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 20:15:26 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ int		check_complet_charo(char *nbr, char letter, t_printf *elem)
 
 	if (ft_strlen(nbr) < (size_t)(elem->width))
 	{
-		if ((elem->precision != -1) && ((size_t)elem->precision > ft_strlen(nbr)))
-			tmp = elem->width - elem->precision;		
+		if ((elem->precision != -1) &&
+			((size_t)elem->precision > ft_strlen(nbr)))
+			tmp = elem->width - elem->precision;
 		else
 			tmp = elem->width - ft_strlen(nbr);
 		if (elem->flag_sharp)
@@ -52,29 +53,33 @@ int		check_complet_charo(char *nbr, char letter, t_printf *elem)
 	return (count);
 }
 
+void	putzero_ifsharp(char *nbr, t_printf *elem)
+{
+	if (elem->flag_sharp && !(ft_strlen(nbr) == 1 && nbr[0] == '0') &&
+		elem->precision < (int)ft_strlen(nbr))
+		ft_putchar('0');
+}
+
 int		with_widtho(char *nbr, t_printf *elem)
 {
 	int count;
 
 	if (elem->flag_minus)
 	{
-		if (elem->flag_sharp && !(ft_strlen(nbr) == 1 && nbr[0] == '0') && elem->precision < (int)ft_strlen(nbr))
-			ft_putchar('0');
+		putzero_ifsharp(nbr, elem);
 		ft_puto(nbr, elem);
 		count = check_complet_charo(nbr, ' ', elem);
 	}
 	else if (elem->flag_zero)
 	{
 		count = check_complet_charo(nbr, '0', elem);
-		if (elem->flag_sharp && !(ft_strlen(nbr) == 1 && nbr[0] == '0') && elem->precision < (int)ft_strlen(nbr))
-			ft_putchar('0');
+		putzero_ifsharp(nbr, elem);
 		ft_puto(nbr, elem);
 	}
 	else
 	{
 		count = check_complet_charo(nbr, ' ', elem);
-		if (elem->flag_sharp && !(ft_strlen(nbr) == 1 && nbr[0] == '0') && elem->precision < (int)ft_strlen(nbr))
-			ft_putchar('0');
+		putzero_ifsharp(nbr, elem);
 		ft_puto(nbr, elem);
 	}
 	return (count);
@@ -87,29 +92,21 @@ int		ft_o(unsigned long nbr, t_printf *elem)
 
 	if (!nbr && !elem->precision && !elem->flag_sharp)
 	{
-		count = elem->width;
+		count = elem->width > 0 ? elem->width : 0;
 		while (elem->width-- > 0)
 			ft_putchar(' ');
-		if (count)
-			return (count);
-		return (0);
+		return (count);
 	}
 	str = ft_itoabaseu(nbr, 8, 0);
 	if (elem->width)
 		count = with_widtho(str, elem);
 	else
 	{
-		if (elem->flag_sharp && !(ft_strlen(str) == 1 && str[0] == '0') && elem->precision < (int)ft_strlen(str))
-			ft_putchar('0');
+		putzero_ifsharp(str, elem);
 		ft_puto(str, elem);
 		count = ft_strlen(str);
 	}
-	if ((elem->precision != -1) && ((size_t)elem->precision > ft_strlen(str)))
-		count += elem->precision - ft_strlen(str);
-	if (elem->flag_sharp && str[0] != '0' && elem->precision < (int)ft_strlen(str))
-		count++;
-	if (((size_t)elem->width > ft_strlen(str)) && (elem->precision < elem->width))
-		count = elem->width;
+	count = end_o(str, count, elem);
 	free(str);
 	return (count);
 }

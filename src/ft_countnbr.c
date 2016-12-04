@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 01:01:28 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/01 17:56:20 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 16:30:24 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 short	ft_countnbr(long nbr)
 {
-	 short count;
+	short count;
 
 	if (nbr == -9223372036854775807 - 1)
 		return (20);

@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/26 18:57:46 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/03 19:36:30 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 19:10:33 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	w_width(wchar_t *str, t_printf *elem)
 	count = elem->width - ft_count_multiple_unicode(str);
 	if (elem->flag_zero)
 		while (count-- > 0)
-				ft_putchar('0');
+			ft_putchar('0');
 	else
 		while (count-- > 0)
 			ft_putchar(' ');
@@ -92,6 +92,7 @@ int		ft_smaj(wchar_t *str, t_printf *elem)
 {
 	int		count;
 	int		i;
+
 	if (!str)
 		return (is_null(elem));
 	count = 0;

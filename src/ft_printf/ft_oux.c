@@ -6,30 +6,43 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 23:52:21 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/02 23:28:05 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 20:15:27 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
 
-int		check_complet_charu(unsigned long nbr, int count, char letter, t_printf *elem)
+int		end_o(char *str, int count, t_printf *elem)
+{
+	if (elem->precision != -1 && (size_t)elem->precision > ft_strlen(str))
+		count += elem->precision - ft_strlen(str);
+	if (elem->flag_sharp && str[0] != '0' &&
+		elem->precision < (int)ft_strlen(str))
+		count++;
+	if ((size_t)elem->width > ft_strlen(str) &&
+		elem->precision < elem->width)
+		count = elem->width;
+	return (count);
+}
+
+int		check_complet_charu(unsigned long nbr, int i, char l, t_printf *elem)
 {
 	int	tmp;
 
-	if (ft_countunbr(nbr) < (elem->width + count))
+	if (ft_countunbr(nbr) < (elem->width + i))
 	{
 		if (elem->precision > ft_countunbr(nbr))
-			tmp = elem->width - count - elem->precision;
+			tmp = elem->width - i - elem->precision;
 		else
-			tmp = elem->width - count - ft_countunbr(nbr);
+			tmp = elem->width - i - ft_countunbr(nbr);
 		while (tmp-- > 0)
-			ft_putchar(letter);
-		count = elem->width;
+			ft_putchar(l);
+		i = elem->width;
 	}
 	else
-		count += ft_countunbr(nbr);
-	return (count);
+		i += ft_countunbr(nbr);
+	return (i);
 }
 
 int		with_widthu(unsigned long nbr, t_printf *elem)
@@ -66,7 +79,7 @@ int		ft_u(unsigned long nbr, t_printf *elem)
 		count = with_widthu(nbr, elem);
 	else
 	{
-		count = + ft_countunbr(nbr);
+		count = ft_countunbr(nbr);
 		ft_putunbrwp(nbr, elem->precision);
 		if (elem->precision >= ft_countunbr(nbr))
 			count++;

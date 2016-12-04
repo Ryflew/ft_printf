@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 17:00:24 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/03 18:07:13 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 20:17:16 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,20 @@ int		with_widthp(char *nbr, t_printf *elem)
 
 	if (elem->flag_minus)
 	{
-		ft_putstr("0x");		
+		ft_putstr("0x");
 		ft_putp(nbr, elem);
 		count = check_complet_charp(nbr, ' ', elem);
 	}
 	else if (elem->flag_zero)
 	{
-		ft_putstr("0x");		
+		ft_putstr("0x");
 		count = check_complet_charp(nbr, '0', elem);
 		ft_putp(nbr, elem);
 	}
 	else
 	{
 		count = check_complet_charp(nbr, ' ', elem);
-		ft_putstr("0x");		
+		ft_putstr("0x");
 		ft_putp(nbr, elem);
 	}
 	return (count);
@@ -77,13 +77,11 @@ int		ft_p(void *address, t_printf *elem)
 	str = ft_itoabaseu((unsigned long)address, 16, 1);
 	if (str[0] == '0' && ft_strlen(str) == 1 && !elem->precision)
 	{
-		count = elem->width;
+		count = elem->width > 0 ? elem->width : 0;
 		while (elem->width-- > 0)
 			ft_putchar(' ');
-		ft_putstr("0x");		
-		if (count)
-			return (count + 2);
-		return (2);
+		ft_putstr("0x");
+		return (count + 2);
 	}
 	if (elem->width)
 		count = with_widthp(str, elem);

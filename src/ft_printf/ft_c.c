@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/26 17:05:36 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/02 01:33:01 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 16:31:34 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int		ft_cwl(wint_t c, t_printf *elem)
 
 int		ft_c(int c, t_printf *elem)
 {
-	int		count;
+	int				count;
 	unsigned char	cha;
 
 	count = 0;
@@ -97,6 +97,6 @@ int		ft_c(int c, t_printf *elem)
 			ft_putchar(cha);
 		return (elem->width);
 	}
-	ft_putchar(cha);		
+	ft_putchar(cha);
 	return (1);
 }

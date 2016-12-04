@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 17:42:59 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/03 18:19:24 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/04 18:55:34 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		with_width_percent(t_printf *elem)
 	{
 		while (count-- > 0)
 			ft_putchar('0');
-		ft_putchar('%');		
+		ft_putchar('%');
 	}
 	else
 	{
